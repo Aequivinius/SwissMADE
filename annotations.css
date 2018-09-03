@@ -1,0 +1,25 @@
+report {
+font-family : verdana, geneva, helvetica;
+white-space: pre;
+background-color : white;
+}
+
+diagnosis {
+	background-color: #fda121;
+}
+
+procedure {
+	background-color: #90ffb3;
+}
+
+medication_order {
+	background-color: #61c7ff;
+}
+
+drug {
+	background-color: #b183ff;
+}
+
+hemoglobin, oxygen_saturation, blood_pressure, hemacrit, red_blood_cells, white_blood_cells, pt, sodium, potassium, urea, creatinine, crp {
+	background-color: #fc6256;
+}

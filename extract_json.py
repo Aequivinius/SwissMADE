@@ -18,7 +18,6 @@ def findall_inside(g,found):
 	if all(h in g.keys() for h in ['Titel','Text']):
 		found[g['Titel']] = g['Text']
 	elif all(h in g.keys() for h in ['Titel','Inhalt']):
-		print('Found',g)
 		found[g['Titel']] = g['Inhalt']
 	for key, item in g.items():
 		findall_inside(item,found)
@@ -35,8 +34,14 @@ import os
 for file in os.listdir("../data_200"):
 	if file.endswith(".json"):
 
-		f = os.path.join("../data", file)
-		f = open(f)
-		g = json.load(f)
-		found = findall(g)
-		write_intermediary(found,'../data_extracted/' + file)
+		fname = os.path.join("../data_200", file)
+		f = open(fname)
+
+		errors = open('errors_log.txt','w')
+		try:
+			g = json.load(f)
+			found = findall(g)
+			write_intermediary(found,'../data_extracted/' + file)
+		except Exception as e:
+			errors.write(fname + '\n')
+			print(e)

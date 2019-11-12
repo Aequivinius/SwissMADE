@@ -3,6 +3,7 @@ import json
 
 medis = {}
 medis_counts = {}
+error_counter = 0
 
 for file in os.listdir("../18k"):
 	if file.endswith(".json"):
@@ -28,7 +29,8 @@ for file in os.listdir("../18k"):
 				else:
 					medis[m['ATC']].extend(document_d_codes)
 		except:
-			print('Error in ', f)
+			print('Error in ', fname)
+			error_counter += 1
 			
 del medis['']
 
@@ -41,11 +43,11 @@ for m , c in medis.items():
 		
 		count = c.count(d)
 		
-		if count > 10:
+		if count > 100:
 			counts[d] = c.count(d)
 	
 	if len(counts) > 0:
-		counts_sorted = sorted(counts.items(), key=lambda kv: kv[1])
+		counts_sorted = sorted(counts.items(), key=lambda kv: kv[1]).reverse()
 		medis_counts[m] = counts_sorted
 	
 

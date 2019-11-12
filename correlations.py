@@ -10,7 +10,7 @@ for file in os.listdir("../18k"):
 
 		fname = os.path.join("../18k", file)
 		f = open(fname)
-		print(fname)
+		# print(fname)
 		
 		g = json.load(f)
 		
@@ -29,9 +29,10 @@ for file in os.listdir("../18k"):
 				else:
 					medis[m['ATC']].extend(document_d_codes)
 		except:
-			print('Error in ', fname)
+			# print('Error in ', fname)
 			error_counter += 1
-			
+
+print('Error filtes: ', error_count)		
 del medis['']
 
 for m , c in medis.items():

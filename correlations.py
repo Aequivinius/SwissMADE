@@ -15,6 +15,7 @@ for file in os.listdir("../data_200"):
 		
 		document_d_codes = []
 		
+<<<<<<< HEAD
 		try:
 			for d in g['Bericht']['Diagnose']['Diagnose']['DiagnList']:
 				if not d['CodeList'] == '':
@@ -29,6 +30,19 @@ for file in os.listdir("../data_200"):
 					medis[m['ATC']].extend(document_d_codes)
 		except:
 			print('Error in ', f)
+=======
+		for d in g['Bericht']['Diagnose']['Diagnose']['DiagnList']:
+			if not d['CodeList'] == '':
+				for c in d['CodeList']:
+					document_d_codes.append(c['Code'])
+					
+		
+		for m in g['ZsfgKG']['MediEintritt']['Medis']['List']:
+			if not m['ATC'] in medis.keys():
+				medis[m['ATC']] = document_d_codes
+			else:
+				medis[m['ATC']].extend(document_d_codes)
+>>>>>>> 1f4faa941c857a10ff623ea58ccf384187474cef
 
 for m , c in medis.items():
 	counts = {}

@@ -44,7 +44,9 @@ for m , c in medis.items():
 		if count > 10:
 			counts[d] = c.count(d)
 	
-	medis_counts[m] = counts
+	if len(counts) > 0:
+		counts_sorted = sorted(counts.items(), key=lambda kv: kv[1])
+		medis_counts[m] = counts_sorted
 	
 
 		

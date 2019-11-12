@@ -4,10 +4,10 @@ import json
 medis = {}
 medis_counts = {}
 
-for file in os.listdir("../data_200"):
+for file in os.listdir("../18k"):
 	if file.endswith(".json"):
 
-		fname = os.path.join("../data_200", file)
+		fname = os.path.join("../18k", file)
 		f = open(fname)
 		print(fname)
 		

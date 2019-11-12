@@ -29,6 +29,8 @@ for file in os.listdir("../data_200"):
 					medis[m['ATC']].extend(document_d_codes)
 		except:
 			print('Error in ', f)
+			
+del medis['']
 
 for m , c in medis.items():
 	counts = {}
@@ -37,9 +39,14 @@ for m , c in medis.items():
 		
 	for d in d_codes:
 		
-		counts[d] = c.count(d)
+		count = c.count(d)
+		
+		if count > 10:
+			counts[d] = c.count(d)
 	
 	medis_counts[m] = counts
+	
+
 		
 with open('out.txt','w') as g:
 	g.write(json.dumps(medis_counts,sort_keys=True,indent=4))

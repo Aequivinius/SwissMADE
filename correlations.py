@@ -40,7 +40,7 @@ for file in os.listdir("../18k"):
 			# print('Error in ', fname)
 			error_counter += 1
 
-print('Error filtes: ', error_counter)
+print('Error files: ', error_counter)
 
 if '' in medis.keys():	
 	del medis['']
@@ -55,7 +55,8 @@ for m , c in medis.items():
 		
 		count = c.count(d)
 		
-		if count > 100:
+		# was 100
+		if count > 0:
 			counts[diag_names[d]] = c.count(d)
 	
 	if len(counts) > 0:
@@ -65,10 +66,19 @@ for m , c in medis.items():
 	
 
 		
-with open('out.txt','w') as g:
-	g.write(json.dumps(print_dict,sort_keys=True,indent=4))
-				
+with open('correlations.json','w') as g:
+	g.write(json.dumps(print_dict,sort_keys=True,indent=4,ensure_ascii=False).encode('utf8'))
 	
-		
+	
+import csv			
+with open('correlations.csv','w') as g:
+	writer = csv.writer(g, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+	writer.writerow(['DRUG','DIAGNOSIS','COUNT','EXPECTED','INTERESTING','ABSURD'])
+	
+	for medi, diagnoses in print_dict.items():
+		for diag in diagnoses:
+			row = [s.encode('utf-8') for s in [medi, diag[0], str(diag[1]),'','','']]
+			writer.writerow(row)
+ 		
 
 

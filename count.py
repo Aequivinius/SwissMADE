@@ -49,7 +49,7 @@ def count(json_directory='data_json'):
 
         total_diagnoses_counter += len(codes)
         matching_diagnoses = set(codes) & all_codes
-        matching_diagnoses_counter = len(matching_diagnoses)
+        matching_diagnoses_counter += len(matching_diagnoses)
         for match in matching_diagnoses:
             if match in diagnoses_counter:
                 diagnoses_counter[match] += 1

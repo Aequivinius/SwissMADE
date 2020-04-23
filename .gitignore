@@ -1,5 +1,7 @@
-annotated/*
-venv
-.DS_Store
-.ipynb_checkpoints/
-*.pickle
+data
+Pipfile.lock
+*.ipynb_checkpoints
+*.pyc
+*.py.swp
+._*
+__*

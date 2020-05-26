@@ -3,6 +3,7 @@ import os
 import json
 from jsonpath_ng.ext import parse
 import pandas
+import random
 import sys
 
 ICD10_CODE = parse('$..CodeList[?(@.Kat=="ICD10")].Code')
@@ -63,5 +64,51 @@ def count(json_directory='data_json'):
         w.writerow([key, val])
 
 
+def construct_subset(counts='count.csv', size=300):
+
+    diagnoses = codes_to_documents()
+
+    counts = pandas.read_csv('output.csv', index_col=0, squeeze=True).to_dict()
+    counts.pop('total diagnoses')
+    total = counts.pop('matching diagnoses')
+    factor = size/int(total)
+
+    subset = []
+
+    for diagnosis, count in counts.items():
+        number = int(count * factor) + 1
+
+        if number > len(diagnoses[diagnosis]):
+            number = len(diagnoses[diagnosis])
+
+        subset.extend(random.sample(diagnoses[diagnosis], number))
+
+    subset = set(subset)
+    with open('subset.txt', 'w') as outfile:
+        outfile.write("\n".join(subset))
+    print(subset)
+
+
+def codes_to_documents(inpath='test_data'):
+    all_codes = excel_to_codes()
+    diagnoses = {}
+
+    for report in os.listdir(inpath):
+        if not report.endswith(".json"):
+            continue
+        print('processing report ', report)
+
+        codes = file_to_code(os.path.join(inpath, report))
+
+        matching_diagnoses = set(codes) & all_codes
+        for match in matching_diagnoses:
+            if match in diagnoses:
+                diagnoses[match].append(report)
+            else:
+                diagnoses[match] = [report]
+
+    return diagnoses
+
+
 if __name__ == '__main__':
-    count(sys.argv[1])
+    codes_to_documents(sys.argv[1])

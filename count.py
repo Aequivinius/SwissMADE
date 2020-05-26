@@ -91,7 +91,7 @@ def construct_subset(data='test_data', counts='count.csv', size=300):
 
 def codes_to_documents(inpath='test_data'):
     with open('codes/allcodes.tsv') as f:
-        all_codes = f.read().splitlines()
+        all_codes = set(f.read().splitlines())
     diagnoses = {}
 
     for report in os.listdir(inpath):
@@ -107,7 +107,8 @@ def codes_to_documents(inpath='test_data'):
                 diagnoses[match].append(report)
             else:
                 diagnoses[match] = [report]
-
+    
+    print(diagnoses)
     return diagnoses
 
 

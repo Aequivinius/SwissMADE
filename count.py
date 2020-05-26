@@ -64,11 +64,11 @@ def count(json_directory='data_json'):
         w.writerow([key, val])
 
 
-def construct_subset(counts='count.csv', size=300):
+def construct_subset(data='test_data', counts='count.csv', size=300):
 
-    diagnoses = codes_to_documents()
+    diagnoses = codes_to_documents(data)
 
-    counts = pandas.read_csv('output.csv', index_col=0, squeeze=True).to_dict()
+    counts = pandas.read_csv(counts, index_col=0, squeeze=True).to_dict()
     counts.pop('total diagnoses')
     total = counts.pop('matching diagnoses')
     factor = size/int(total)
@@ -90,7 +90,8 @@ def construct_subset(counts='count.csv', size=300):
 
 
 def codes_to_documents(inpath='test_data'):
-    all_codes = excel_to_codes()
+    with open('codes/allcodes.tsv') as f:
+        all_codes = f.read().splitlines()
     diagnoses = {}
 
     for report in os.listdir(inpath):
@@ -111,4 +112,4 @@ def codes_to_documents(inpath='test_data'):
 
 
 if __name__ == '__main__':
-    codes_to_documents(sys.argv[1])
+    construct_subset(sys.argv[1])

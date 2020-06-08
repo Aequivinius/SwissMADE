@@ -5,3 +5,12 @@ Pipfile.lock
 *.py.swp
 ._*
 __*
+
+manual_annotation.csv
+ami.txt
+pe.txt
+sev_hemo.txt
+stroke.txt
+output.csv
+subset.txt
+subset_300*

@@ -107,10 +107,119 @@ def codes_to_documents(inpath='test_data'):
                 diagnoses[match].append(report)
             else:
                 diagnoses[match] = [report]
-    
+
     print(diagnoses)
     return diagnoses
 
 
+def predict_ade(codes, haystack):
+    classification = []
+
+    vte = any(code in haystack['vte_codes'] for code in codes)
+    vte = vte or any(
+        code.startswith(tuple(haystack['vte_codes_expand'])) for code in codes)
+
+    if vte:
+
+        pe = any(code in haystack['pe_codes'] for code in codes)
+        pe = pe or any(
+            code.startswith(
+                 tuple(haystack['pe_codes_expand'])) for code in codes)
+        if pe:
+            classification.append('pe')
+
+        stroke = any(code in haystack['stroke_codes'] for code in codes)
+        stroke = stroke or any(
+            code.startswith(
+                 tuple(haystack['stroke_codes_expand'])) for code in codes)
+        if stroke:
+            classification.append('stroke')
+
+        ami = any(code in haystack['ami_codes'] for code in codes)
+        ami = ami or any(
+            code.startswith(
+                 tuple(haystack['ami_codes_expand'])) for code in codes)
+        if ami:
+            classification.append('ami')
+
+    ade_hemo = any(code in haystack['ade_hemo_codes'] for code in codes)
+    # not necessary, there are not _ in the ade_hemo codes
+
+    if ade_hemo:
+
+        sev_hemo = any(code in haystack['sev_hemo_codes'] for code in codes)
+        sev_hemo = sev_hemo or any(
+            code.startswith(
+                 tuple(haystack['sev_hemo_codes_expand'])) for code in codes)
+        if sev_hemo:
+            classification.append('sev_hemo')
+
+    if len(classification) < 1:
+        classification = []
+
+    return classification
+
+    # if doesn't yield enough, try adding Hemo & ( transfu | death )
+
+
+def get_codes(infile):
+    codes = open(infile).read().splitlines()
+    codes = [code.split('!')[0] for code in codes]
+    codes_expand = [code.split('_')[0] for code in codes if '_' in code]
+    codes = [code for code in codes if '_' not in code]
+
+    return codes, codes_expand
+
+
+def file_to_codes(json_file):
+    with open(json_file) as jf:
+        data = json.load(jf)
+        return [match.value for match in ICD10_CODE.find(data)]
+
+
+def predict_directory(inpath='subset_300/*.json'):
+
+    haystack = {'pe_codes': [], 'pe_codes_expand': [],
+                'vte_codes': [], 'vte_codes_expand': [],
+                'stroke_codes': [], 'stroke_codes_expand': [],
+                'ami_codes': [], 'ami_codes_expand': [],
+                'ade_hemo_codes': [], 'ade_hemo_codes_expand': [],
+                'sev_hemo_codes': [], 'sev_hemo_codes_expand': []}
+
+    haystack['pe_codes'], \
+        haystack['pe_codes_expand'] = get_codes('codes/PE.txt')
+    haystack['vte_codes'], \
+        haystack['vte_codes_expand'] = get_codes('codes/ADE_VTE.txt')
+    haystack['stroke_codes'], \
+        haystack['stroke_codes_expand'] = get_codes('codes/Stroke.txt')
+    haystack['ami_codes'], \
+        haystack['ami_codes_expand'] = get_codes('codes/AMI.txt')
+    haystack['ade_hemo_codes'], \
+        haystack['ade_hemo_codes_expand'] = get_codes('codes/ADE_Hemo.txt')
+    haystack['sev_hemo_codes'], \
+        haystack['sev_hemo_codes_expand'] = get_codes('codes/Sev_Hemo.txt')
+
+    classified = {'stroke': [],
+                  'sev_hemo': [],
+                  'ami': [],
+                  'pe': []}
+
+    import glob
+    import os.path
+
+    for report in glob.glob(inpath):
+        codes = file_to_codes(report)
+
+        classifications = predict_ade(codes, haystack)
+        if classifications != []:
+
+            for classification in classifications:
+                classified[classification].append(os.path.split(report)[1])
+
+    for ade, documents in classified.items():
+        with open(ade + '.txt', 'w') as f:
+            f.write("\n".join(documents))
+
+
 if __name__ == '__main__':
-    construct_subset(sys.argv[1])
+    predict_directory(sys.argv[1])

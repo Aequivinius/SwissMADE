@@ -219,7 +219,7 @@ def predict_directory(inpath='subset_300/*.json'):
     for ade, documents in classified.items():
         with open(ade + '.txt', 'w') as f:
             f.write("\n".join(documents))
-
+            f.write("\n")
 
 if __name__ == '__main__':
     predict_directory(sys.argv[1])

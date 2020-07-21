@@ -1,1 +1,0 @@
-The reports have a field for diagnoses, some of which have their ICD10 code. Similar to that, there's a field for drugs.

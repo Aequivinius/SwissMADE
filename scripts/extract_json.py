@@ -31,17 +31,18 @@ def write_intermediary(intermediary,outfile):
 		g.write(outstring.strip())
 
 import os
-for file in os.listdir("../data_200"):
-	if file.endswith(".json"):
+for fname in os.listdir("/Users/sazerac/Downloads/ade_400/ami_100"):
+	if fname.endswith(".json"):
 
-		fname = os.path.join("../data_200", file)
+		fname = os.path.join("/Users/sazerac/Downloads/ade_400/ami_100", fname)
 		f = open(fname)
+		print(fname)
 
-		errors = open('errors_log.txt','w')
+		errors = open('errors_log.txt', 'w')
 		try:
 			g = json.load(f)
 			found = findall(g)
-			write_intermediary(found,'../data_extracted/' + file)
+			write_intermediary(found,'../ami_100_txt/' + os.path.basename(fname[:-5] + '.txt'))
 		except Exception as e:
 			errors.write(fname + '\n')
 			print(e)

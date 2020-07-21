@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<schema xmlns="http://www.w3.org/2000/10/XMLSchema">
+    <element name="Event">
+        <complexType>
+            <attribute name="type" use="optional" >
+                <simpleType>
+                    <restriction base="string">
+                        <enumeration value="non-severe bleeding"/>
+                        <enumeration value="severe bleeding"/>
+                        <enumeration value="DVT"/>
+                        <enumeration value="PE"/>
+                        <enumeration value="TIA"/>
+                        <enumeration value="acute myocardial infarction"/>
+                    </restriction>
+                </simpleType>
+            </attribute>
+            <attribute name="Naranjo score" use="optional" >
+                <simpleType>
+                    <restriction base="string">
+                        <enumeration value="0"/>
+                        <enumeration value="1"/>
+                        <enumeration value="2"/>
+                        <enumeration value="3"/>
+                        <enumeration value="4"/>
+                    </restriction>
+                </simpleType>
+            </attribute>
+        </complexType>
+    </element>
+</schema>

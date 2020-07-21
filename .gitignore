@@ -5,6 +5,7 @@ Pipfile.lock
 *.py.swp
 ._*
 __*
+.DS_Store
 
 manual_annotation.csv
 ami.txt

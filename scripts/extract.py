@@ -1,26 +1,29 @@
 import json
+import os
 
-def findall(g):
+def findall_wrapper(g):
     found = {}
-    findall_inside(g,found)
+    findall(g,found)
     return found
 
-def findall_inside(g,found):
+def findall(g,found):
 
-    if isinstance(g,str):
+    if isinstance(g, str):
         return
 
-    if isinstance(g,list):
+    if isinstance(g, list):
         for h in g:
-            findall_inside(h,found)
+            findall(h,found)
         return
 
-    if all(h in g.keys() for h in ['Titel','Text']):
+    if all(h in g.keys() for h in ['Titel', 'Text']):
         found[g['Titel']] = g['Text']
-    elif all(h in g.keys() for h in ['Titel','Inhalt']):
-        found[g['Titel']] = g['Inhalt']
+    if all(h in g.keys() for h in ['Titel', 'Inhalt']):
+        if isinstance(g['Inhalt'], str):
+            found[g['Titel']] = g['Inhalt']
+
     for key, item in g.items():
-        findall_inside(item,found)
+        findall(item,found)
 
 def write_intermediary(intermediary,outfile):
     outstring = ''
@@ -30,19 +33,32 @@ def write_intermediary(intermediary,outfile):
     with open(outfile, 'w') as g:
         g.write(outstring.strip())
 
-import os
-for fname in os.listdir("/Users/sazerac/Downloads/ade_400/ami_100"):
-    if fname.endswith(".json"):
+def json_to_txt(inpath, outpath):
+    f = open(inpath)
+    g = json.load(f)
+    found = findall_wrapper(g)
+    write_intermediary(found, outpath)
 
-        fname = os.path.join("/Users/sazerac/Downloads/ade_400/ami_100", fname)
-        f = open(fname)
-        print(fname)
+def json_to_txt_wrapper(inpath, outpath):
+    errors = open('errors_log.txt', 'w')
 
-        errors = open('errors_log.txt', 'w')
-        try:
-            g = json.load(f)
-            found = findall(g)
-            write_intermediary(found,'../ami_100_txt/' + os.path.basename(fname[:-5] + '.txt'))
-        except Exception as e:
-            errors.write(fname + '\n')
-            print(e)
+    if not os.path.exists(outpath):
+        os.makedirs(outpath)
+
+    for fname in os.listdir(inpath):
+
+        if os.path.isdir(os.path.join(inpath,fname)):
+            new_inpath = os.path.join(inpath, fname)
+            new_outpath = os.path.join(outpath, fname)
+            json_to_txt_wrapper(new_inpath, new_outpath)
+
+        if fname.endswith(".json"):
+            new_inpath = os.path.join(inpath,fname)
+            new_outpath = os.path.join(outpath, os.path.basename(fname[:-5] + '.txt'))
+
+            try:
+                json_to_txt(new_inpath, new_outpath)
+            except Exception as e:
+                errors.write(fname + '\n')
+                print(new_inpath)
+                print(e)

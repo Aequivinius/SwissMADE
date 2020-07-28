@@ -142,6 +142,22 @@ def predict_ade(codes, haystack):
         if ami:
             classification.append('ami')
 
+        ate = any(code in haystack['ate_codes'] for code in codes)
+        ate = ate or any(
+            code.startswith(
+                 tuple(haystack['ate_codes_expand'])) for code in codes)
+        if ate:
+            classification.append('ate')
+
+        dvt = any(code in haystack['dvt_codes'] for code in codes)
+        dvt = dvt or any(
+            code.startswith(
+                 tuple(haystack['dvt_codes_expand'])) for code in codes)
+        if dvt:
+            classification.append('dvt')
+
+
+
     ade_hemo = any(code in haystack['ade_hemo_codes'] for code in codes)
     # not necessary, there are not _ in the ade_hemo codes
 
@@ -184,7 +200,9 @@ def predict_directory(inpath='subset_300/*.json'):
                 'stroke_codes': [], 'stroke_codes_expand': [],
                 'ami_codes': [], 'ami_codes_expand': [],
                 'ade_hemo_codes': [], 'ade_hemo_codes_expand': [],
-                'sev_hemo_codes': [], 'sev_hemo_codes_expand': []}
+                'sev_hemo_codes': [], 'sev_hemo_codes_expand': [],
+                'ate_codes': [], 'ate_codes_expand': [],
+                'dvt_codes': [], 'dvt_codes_expand': []}
 
     haystack['pe_codes'], \
         haystack['pe_codes_expand'] = get_codes('codes/PE.txt')
@@ -198,11 +216,17 @@ def predict_directory(inpath='subset_300/*.json'):
         haystack['ade_hemo_codes_expand'] = get_codes('codes/ADE_Hemo.txt')
     haystack['sev_hemo_codes'], \
         haystack['sev_hemo_codes_expand'] = get_codes('codes/Sev_Hemo.txt')
+    haystack['ate_codes'], \
+        haystack['ate_codes_expand'] = get_codes('codes/ATE.txt')
+    haystack['dvt_codes'], \
+        haystack['dvt_codes_expand'] = get_codes('codes/DVT.txt')
 
     classified = {'stroke': [],
                   'sev_hemo': [],
                   'ami': [],
-                  'pe': []}
+                  'pe': [],
+                  'dvt': [],
+                  'ate': []}
 
     import glob
     import os.path

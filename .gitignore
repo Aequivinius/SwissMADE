@@ -7,6 +7,8 @@ Pipfile.lock
 __*
 .DS_Store
 
+scripts/errors_log.txt
+
 manual_annotation.csv
 ami.txt
 pe.txt

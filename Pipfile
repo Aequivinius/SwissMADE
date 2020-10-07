@@ -7,9 +7,9 @@ verify_ssl = true
 
 [packages]
 jupyter = "*"
+pymysql = "*"
 jsonpath-ng = "*"
-pandas = "*"
-xlrd = "*"
+ipykernel = "*"
 
 [requires]
 python_version = "3.8"

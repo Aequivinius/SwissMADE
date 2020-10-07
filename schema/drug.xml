@@ -10,6 +10,14 @@
                 </restriction>
             </simpleType>
         </attribute>
+        <attribute name="negated" use="optional" >
+            <simpleType>
+                <restriction base="string">
+                    <enumeration value="positive"/>
+                    <enumeration value="negated"/>
+                </restriction>
+            </simpleType>
+        </attribute>
     </complexType>
   </element>
 </schema>

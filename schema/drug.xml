@@ -10,7 +10,7 @@
                 </restriction>
             </simpleType>
         </attribute>
-        <attribute name="negated" use="optional" >
+        <attribute name="isNegated" use="optional" >
             <simpleType>
                 <restriction base="string">
                     <enumeration value="positive"/>

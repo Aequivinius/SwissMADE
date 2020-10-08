@@ -2,7 +2,7 @@
 <schema xmlns="http://www.w3.org/2000/10/XMLSchema">
     <element name="Event marker">
       <complexType>
-        <attribute name="negated" use="optional" >
+        <attribute name="isNegated" use="optional" >
             <simpleType>
                 <restriction base="string">
                     <enumeration value="positive"/>

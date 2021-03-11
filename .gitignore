@@ -18,3 +18,4 @@ subset.txt
 subset_300*
 annos
 ksb_extraction/*
+*.zip

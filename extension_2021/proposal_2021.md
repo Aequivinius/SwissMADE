@@ -14,5 +14,5 @@ There remain a few open work packages in the SwissMADE project, which I suggest 
 
 In the roadmap below I listed how long I estimate each WP to take and in which order I would suggest to proceed.
 
-![swissmade-extension-2021-roadmap](/Users/Qua/SwissMADE/extension_2021/swissmade-extension-2021-roadmap.png)
+![swissmade-extension-2021-roadmap](swissmade-extension-2021-roadmap.png)
 

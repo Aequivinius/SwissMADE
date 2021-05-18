@@ -1,0 +1,12 @@
+* structured into CSV
+* unstructured reports into CSV and free text to text
+> ask Denis if CSV is ussable by him
+> send extracted to giulia.gallucci@ksb.ch
+> send category numbers to Marie-Annick  so she can run her witchcraft magic statistics
+* running the pipeline on KSB data
+> get a KSB affiliation
+
+Zürich data
+* data transfer agreement says transfer as mysql
+* structured as sql dump and csv also?
+* unstructed as json and csv and text?

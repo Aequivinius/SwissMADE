@@ -1,0 +1,13 @@
+* can the data from KSB be made available?
+   * Monika says they are anonymised so it should be okay
+   * Monika transfered structured and unstructured to CHUV (as a sql dump)
+   * Can I get access?
+   * Is just sign an NDA
+   * I just work on CHUV
+* look at the dump they gave us, and see if I can extract reports
+   * can I extract them into plain plain plain text, structured data into csv
+   * it's only about the structured data
+* Angela further annotation -> her student (Giulia) can do more
+   * last time it was 600 in 2 months
+   * Angela is away in July
+   * KSB reports, until end of July

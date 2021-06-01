@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "swissmade"
+version = "0.1.0"
+description = ""
+authors = ["Nico Colic"]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+jupyter = "^1.0.0"
+json-flatten = "^0.1"
+flatten-json = "^0.1.13"
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

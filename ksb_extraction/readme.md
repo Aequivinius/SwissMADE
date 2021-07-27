@@ -28,3 +28,10 @@
 
 * Then *all* item titles (such as `Bericht_Verlauf_Titel`) are aggregated, yielding 7285 possible fields. From this, a CSV is generated, encoded in UTF-8, delimited by `,` and values quoted with `"`, with all 7285 item titles as header, and filling in in every row the corresponding values from the report. Naturally, some rows don't have values for all the headers, so there are lots of empty fields.
 * Additionally, every report is exported as a plain text file, with the `reportnr_ano` field from the database serving as file name, in which the item title is followed by its value. 
+
+## A note on encoding
+
+As GATE opens documents in the operating system's default encoding, which under windows is `ISO-8859-9` ([Link](https://gate.ac.uk/sale/tao/splitch3.html#sec:developer:unicode)), it is important to *explicitly* open the files with `UFT-8` encoding as shown in the picture below:
+
+![encoding](img/encoding.png)
+

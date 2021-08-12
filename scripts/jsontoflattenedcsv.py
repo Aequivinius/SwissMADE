@@ -18,14 +18,14 @@ def directory_to_csv(inpath, outpath):
             json_to_csv(inpath_, outpath_)
         except Exception as e:
             errors.write(fname + '\n')
-            print(new_inpath)
+            print(inpath_)
             print(e)
 
     errors.close()
 
 def json_to_csv(inpath, outpath):
 
-    with open(inpath) as json_file, open(outpath, 'w') as csv_file:
+    with open(inpath, encoding="utf-8") as json_file, open(outpath, 'w') as csv_file:
         try:
             pruned = json_file.read().replace("'", "")
             j = json.loads(pruned)
@@ -34,9 +34,9 @@ def json_to_csv(inpath, outpath):
             c = csv.DictWriter(csv_file, fieldnames=j.keys(), delimiter="\t")
             c.writeheader()
             c.writerow(j)
-        except Error as e:
+        except Exception as e:
             with open('errors_log.txt', 'w+') as error_file:
                 error_file.write(e)
                 print("Error during loading {}".format(json_file))
                 
-directory_to_csv(inpath, outpath)
+directory_to_csv('../ADE/18k.wk', '../transfer/18k.tsv')
